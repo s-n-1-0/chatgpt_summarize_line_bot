@@ -9,7 +9,7 @@ from libs import LineApiResponseData,LineApiRequest,firestore,scraping_and_summa
 initialize_app()
 
 @https_fn.on_request(secrets=["LINE_KEY","LINE_SEND_ID"])
-def on_request_example(req: https_fn.Request) -> https_fn.Response:
+def line_webhook(req: https_fn.Request) -> https_fn.Response:
     data = json.loads(req.data.decode("utf-8"))
     openai.api_key =   os.environ["OPENAI_KEY"]
     line_key = os.environ["LINE_KEY"]
