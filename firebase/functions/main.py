@@ -27,7 +27,7 @@ def on_request_example(req: https_fn.Request) -> https_fn.Response:
                 res_text = scraping_and_summarize_with_gpt(pre_text)
             line_req = LineApiRequest(line_key)
             line_req.push_message(line_send_id,text=res_text)
-            #firestore.reset_message_list()# 発言の記録をリセット
+            firestore.reset_message_list()# 発言の記録をリセット
         elif event.source.user_id == line_target_id:
             messages.append(event.to_dict())
             firestore.set_message_list(messages)
