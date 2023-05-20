@@ -8,7 +8,7 @@ sys.path.append(os.path.dirname(os.path.abspath("__file__"))) #これ無いと�
 from libs import LineApiResponseData,LineApiRequest,firestore,scraping_and_summarize_with_gpt
 initialize_app()
 
-@https_fn.on_request(secrets=["LINE_KEY","LINE_SEND_ID"])
+@https_fn.on_request(secrets=["LINE_KEY","LINE_SEND_ID","LINE_TARGET_ID","OPENAI_KEY"])
 def line_webhook(req: https_fn.Request) -> https_fn.Response:
     data = json.loads(req.data.decode("utf-8"))
     openai.api_key =   os.environ["OPENAI_KEY"]
