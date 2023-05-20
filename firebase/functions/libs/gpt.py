@@ -21,13 +21,16 @@ def scraping_and_summarize_with_gpt(text:str):
     text_url_lst = split_url(text) #テキストとURLが分離されたリスト
     tmp_text = ""
     scraping_list = []
+    is_contained_url = False
     for text in text_url_lst:
         if text.startswith("http"):
             tmp_text += "[URL削除済]"
             scraping_list.append(get_text(text))
+            is_contained_url = True
         else:
             tmp_text += text
-    tmp_text += "\n ■URL削除済は以下の内容のURLでした。\n"
+    if is_contained_url:
+        tmp_text += "\n ■URL削除済は以下の内容のURLでした。\n"
     
     scraping_list = scraping_list[:limit_scraping_list]
     res_gpt_list = []
