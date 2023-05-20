@@ -1,7 +1,6 @@
 # %%
-from scraping import get_text
-from text import split_url
-from key import *
+from .scraping import get_text
+from .text import split_url
 import openai
 def summarize_with_gpt(text:str,limit_text_size = 2000,system_text="要約してください。"):
     text =  text[:limit_text_size] #過剰な問い合わせ防止
