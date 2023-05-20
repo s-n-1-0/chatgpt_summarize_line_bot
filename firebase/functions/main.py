@@ -1,6 +1,7 @@
 from firebase_functions import https_fn
 from firebase_admin import initialize_app
 import sys, os
+import time
 import json
 import openai
 sys.path.append(os.path.dirname(os.path.abspath("__file__"))) #これ無いとエミュレータで下層ファイルを読み込めなかった。
@@ -23,7 +24,8 @@ def on_request_example(req: https_fn.Request) -> https_fn.Response:
         if event.message.text == "要約して":
             res_text = "要約できるメッセージがありません。"
             if len(messages) > 0:
-                pre_text =  "\n".join([m["text"] for m in messages])
+                now = time.time()
+                pre_text =  "\n".join([m["text"] for m in messages if now - m["timestamp"] / 1000 < 86400]) #24時間(86400)経過していないメッセージのみ抽出
                 res_text = scraping_and_summarize_with_gpt(pre_text)
             line_req = LineApiRequest(line_key)
             line_req.push_message(line_send_id,text=res_text)
@@ -34,6 +36,4 @@ def on_request_example(req: https_fn.Request) -> https_fn.Response:
     return https_fn.Response(f"Recieved")
 @https_fn.on_request()
 def test(req: https_fn.Request) -> https_fn.Response:
-    #print(req.data)
-    print(os.getcwd())
-    return https_fn.Response(f"2000")
+    return https_fn.Response(f"200")

@@ -29,7 +29,7 @@ class LineApiResponseDataEvent():
         self.source = LineApiResponseDataEventSource(event["source"]) if "source" in event else None
     
     def to_dict(self):
-        d = {}
+        d = {"timestamp":self.timestamp}
         if self.message is not None:
             d.update(self.message.message_dict)
         if self.source is not None:
